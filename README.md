@@ -20,7 +20,7 @@ Trage nun deine HPI-Cloud Informationen in die Informations.py ein.
 Danach sollte die Datei so aussehen:
 ```
 hpiEmail = "deineEmail@gmail.com"
-hpiPassword = "deinPasswort" # Dein Passwort wird für Niemanden freigegeben. Wenn Sie mistrauig sind, gucken Sie sich den Quellcode in der main.py Datei an
+hpiPassword = "deinPasswort" # Dein Passwort wird nicht freigegeben. Wenn Sie mistrauig sind, gucken Sie sich den Quellcode in der main.py Datei an
 ```
 
 ## Usage

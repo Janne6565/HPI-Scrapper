@@ -61,6 +61,7 @@ def writeFile(listExercises): # Write the Informations in the File
                 textExercise = elementInstpect.text
                 doc = docx.Document()
                 doc.add_paragraph(textExercise)
+                doc.add_paragraph(listLinks[count])
                 if not (os.path.isfile(fileWriteExercise)):
                     doc.save(fileWriteExercise)
             bar.update(count)
