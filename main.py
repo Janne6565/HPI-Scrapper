@@ -3,6 +3,8 @@
 # TODO: Gather Sourcecode
 
 from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.actions.mouse_button import MouseButton
 import os
 from datetime import date, timedelta
 import docx
@@ -10,10 +12,11 @@ import progressbar
 import Informations
 from time import sleep
 
+
 today = date.today()
 
 options = webdriver.ChromeOptions()
-options.headless = True
+options.headless = False
 
 browser = webdriver.Chrome(options=options)
 browser.get("https://www.hpi-schul-cloud.de/login")
@@ -81,13 +84,70 @@ def writeFile(listExercises): # Write the Informations in the File
             count += 1
         for i in listText:
             print(i)
-        browser.quit()
+
+def writeToDo(listExercises):
+    browser.get("https://todoist.com/app")
+    while True:
+        try:
+            browser.find_element_by_xpath('//*[@id="email"]').send_keys(Informations.todoistEmail)
+            browser.find_element_by_xpath('//*[@id="password"]').send_keys(Informations.todoistPassword + "\n")
+            break
+        except:
+            pass
+    print("Worked")
+    sleep(3)
+    sleep(1)
+    browser.find_element_by_xpath('//*[@id="projects_list"]/li/table/tbody/tr/td[3]').click()
+    sleep(0.1)
+    browser.find_element_by_xpath('//*[@id="menu_delete_text"]').click()
+    sleep(0.1)
+    browser.find_element_by_class_name('ist_button_red').click()
+    sleep(0.1)
+    browser.find_element_by_xpath('//*[@id="list_holder"]/div[2]/header/div/button').click()
+    sleep(0.1)
+    browser.find_element_by_xpath('//*[@id="edit_project_modal_field_name"]').send_keys("Schule")
+    browser.find_element_by_class_name('ist_button_red').click()
+    count = 0
+    for i in listExercises:
+        obj = browser.find_elements_by_xpath('//*[@id="labels_list"]/li/a')
+        exist = False
+        lesson = i[1].replace(" ", "_").replace("ü", "ue").replace("ä", "ae").replace("ö","oe").replace("Ü", "ue").replace("Ä", "Ae").replace("Ö", "oe")
+        for ii in obj:
+            print(ii.get_attribute("href"))
+            if ii.get_attribute("href").__contains__(lesson):
+                exist = True
+
+        if not exist:
+            browser.find_element_by_xpath('//*[@id="list_holder"]/div[3]/header/div/button').click()
+            sleep(0.3)
+            browser.find_element_by_xpath('//*[@id="edit_label_modal_field_name"]').send_keys(lesson + "\n")
+        browser.find_element_by_xpath('//*[@id="projects_list"]/li[1]').click()
+        sleep(1)
+        browser.find_element_by_xpath('//*[@id="editor"]/div[2]/div/div/ul/li/div/div/ul/li/button').click()
+        sleep(0.3)
+        browser.find_element_by_xpath('//*[@id="editor"]/div[2]/div/div/ul/li/div/div/ul/li/form/div[1]/div[1]/div/div/div/div/div/div').send_keys("@" + lesson + " " + i[0])
+        sleep(0.2)
+        if (i[2] != "Kein Abgabedatum festgelegt") and not i[2].__contains__("Monat"):
+            browser.find_element_by_xpath('//*[@id="editor"]/div[2]/div/div/ul/li/div/div/ul/li/form/div[1]/div[2]/div[1]/button[1]').click()
+            sleep(0.3)
+            browser.find_element_by_class_name("scheduler-input").find_element_by_tag_name("input").send_keys(i[2].replace("-", ".") + "\n")
+        browser.find_element_by_class_name('quick_note_action').click()
+        browser.find_element_by_xpath('//*[@id="quick_comment_input"]').send_keys(listLinks[count])
+        browser.find_element_by_class_name('close_btn').click()
+        browser.find_element_by_xpath('//*[@id="editor"]/div[2]/div/div/ul/li/div/div/ul/li/form/div[2]/button[1]').click()
+        sleep(1)
+        count += 1;
+
 
 if login():
     print("Succesfull Login")
     listExercices = scrap()
+    print(listExercices)
+    if Informations.toDo:
+        writeToDo(listExercices)
     writeFile(listExercices)
     input("Succesfully Finished press Enter to quit")
+    browser.quit()
 else:
     print("Du hast eine falsche EMail adresse oder Passwort angegeben")
     browser.quit()
