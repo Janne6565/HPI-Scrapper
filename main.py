@@ -16,7 +16,7 @@ from time import sleep
 today = date.today()
 
 options = webdriver.ChromeOptions()
-options.headless = False
+options.headless = True
 
 browser = webdriver.Chrome(options=options)
 browser.get("https://www.hpi-schul-cloud.de/login")
