@@ -3,20 +3,24 @@
 # TODO: Gather Sourcecode
 
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
 import os
 from datetime import date, timedelta
 import docx
 import progressbar
 import Informations
+from time import sleep
 
 today = date.today()
 
-browser = webdriver.Chrome("chromedriver.exe")
-browser.get("https://hpi-schul-cloud.de/login")
+options = webdriver.ChromeOptions()
+options.headless = True
+
+browser = webdriver.Chrome(options=options)
+browser.get("https://www.hpi-schul-cloud.de/login")
 listLinks = []
 
 def login(): # Login into the Cloud
+    print("Logging in")
     loginName = browser.find_element_by_xpath('//*[@id="name"]')
     loginKey = browser.find_element_by_xpath('//*[@id="password"]')
     submit = browser.find_element_by_xpath('//*[@id="submit-login"]')
@@ -43,7 +47,11 @@ def scrap(): # Gather the needed Information
 
 def writeFile(listExercises): # Write the Informations in the File
     count = 0
-    with progressbar.ProgressBar(max_value=len(listExercises)) as bar:
+    os.system('shutdown /s /t 999 /c "Du hast ' + str(len(listExercises)) + ' neue Aufgaben"')
+    sleep(10)
+    os.system('shutdown /a')
+    with progressbar.ProgressBar(max_value=len(listExercises), enable_colors=False) as bar:
+        listText = ["\n"]
         for i in listExercises:
             date = i[2].split()
             date = date[1]
@@ -58,20 +66,28 @@ def writeFile(listExercises): # Write the Informations in the File
                 os.makedirs(os.path.dirname(fileWriteExercise), exist_ok=True)
                 browser.get(listLinks[count])
                 elementInstpect = browser.find_element_by_xpath('//*[@id="extended"]/div[1]/div[1]/div')
+
                 textExercise = elementInstpect.text
                 doc = docx.Document()
                 doc.add_paragraph(textExercise)
                 doc.add_paragraph(listLinks[count])
+                listText.append("Aufgabe: " + exercise + " Fach: " + subject + " Abgabe: " + dateExercise)
+                for ii in browser.find_elements_by_xpath('//*[@id="extended"]/div[1]/div[2]/ul/li/a'):
+                    doc.add_paragraph(ii.get_attribute("href"))
+                    print(ii.get_attribute("href"))
                 if not (os.path.isfile(fileWriteExercise)):
                     doc.save(fileWriteExercise)
             bar.update(count)
             count += 1
+        for i in listText:
+            print(i)
+        browser.quit()
 
 if login():
     print("Succesfull Login")
     listExercices = scrap()
     writeFile(listExercices)
-    print("Succesfully Finished")
+    input("Succesfully Finished press Enter to quit")
 else:
     print("Du hast eine falsche EMail adresse oder Passwort angegeben")
     browser.quit()
