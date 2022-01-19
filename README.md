@@ -21,7 +21,7 @@ Trage nun deine HPI-Cloud Daten in die Informations.py ein. (```Rechtsklick``` a
 Danach sollte die Datei so aussehen:
 ```
 hpiEmail = "deineEmail@gmail.com"
-hpiPassword = "deinPasswort" # Dein Passwort wird nicht freigegeben. Wenn Sie mistrauig sind, gucken Sie sich den Quellcode in der main.py Datei an
+hpiPassword = "deinPasswort"
 ```
 
 Wenn du möchtest, dass das Programm nach jedem Neustart nach neuen Aufgaben sucht musst du folgendes machen:
@@ -31,7 +31,7 @@ Diese Verknüpfung muss nun zu deiner ```main.py``` Datei führen. Wenn du das g
 
 ## Optional für Todoist
 
-Als erstes musst du dir ein Todoist Konto anlegen. Dies ist Gratis und kostet kein geld oder sonst irgendwas. Dabei musst du aber beachten, dass du nicht einfach dein Google Konto verknüpfen kannst. Da dies sonst nicht funktionieren wird.
+Als erstes musst du dir ein Todoist Konto anlegen. Dies ist Gratis. Dabei musst du aber beachten, dass du nicht einfach dein Google Konto verknüpfen kannst. Da dies sonst nicht funktionieren wird.
 Wenn du deine Aufgaben automatisch in Todoist Laden möchtest, trage ```toDo = True``` ein, wenn nicht trage ```toDo = False``` ein.
 Nun musst bei Todoist ein Projekt erstellen. Es ist egal wie es heißt und wird danach gelöscht. 
 Am ende sollte dein Todoist so aussehen wie in der Todoist.png Datei.
@@ -45,7 +45,7 @@ In diesem befinden sich nun geordnet Ihre Aufgaben.
 
 ## Contributing
 
-Bei Fragen oder Ähnlichem bitte an jannekeipert@gmx.de oder +4916092422210 wenden.
+Bei Fragen oder Ähnlichem bitte an jabbekeipert@gmail.com wenden.
 
 ## License
 Licensed by Janne Keipert
