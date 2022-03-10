@@ -46,6 +46,3 @@ In diesem befinden sich nun geordnet Ihre Aufgaben.
 ## Contributing
 
 Bei Fragen oder Ähnlichem bitte an jabbekeipert@gmail.com wenden.
-
-## License
-Licensed by Janne Keipert
