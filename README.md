@@ -1,6 +1,6 @@
 # HPI-Scrapper
 
-Dieses Programm wurde geschrieben, um Schülern zu helfen die HPI-Cloud leichter zu benutzen und Ihre Datein sortiert zu behalten.
+Dieses Programm wurde geschrieben, um Schüler*innen zu helfen die HPI-Cloud leichter zu benutzen und Ihre Datein sortiert zu behalten.
 
 ## Installation
 
